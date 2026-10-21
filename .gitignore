@@ -1,0 +1,6 @@
+Debug/
+Release/
+.metadata/
+*.o
+*.axf
+#Elimina archivos que se generan localmente para evitar problemas al importar
