@@ -1,0 +1,17 @@
+../src/1-modulos/05-timer/Timer.cpp:10:1:Timer::Timer()	16	static
+../src/1-modulos/05-timer/Timer.cpp:22:1:Timer::Timer(bases_t, Timer_Callback)	32	static
+../src/1-modulos/05-timer/Timer.cpp:33:6:virtual void Timer::HandlerDelPeriferico()	16	static
+../src/1-modulos/05-timer/Timer.cpp:46:6:void Timer::TimerStart(uint32_t, Timer_Callback, bases_t)	24	static
+../src/1-modulos/05-timer/Timer.cpp:60:6:bool Timer::TimerStart(uint32_t)	24	static
+../src/1-modulos/05-timer/Timer.cpp:77:6:bool Timer::SetTimer(uint32_t)	24	static
+../src/1-modulos/05-timer/Timer.cpp:94:6:bool Timer::GetTimer(uint32_t&)	24	static
+../src/1-modulos/05-timer/Timer.cpp:106:6:void Timer::StandByTimer(standby_t)	16	static
+../src/1-modulos/05-timer/Timer.cpp:113:6:void Timer::TimerStop()	16	static
+../src/1-modulos/05-timer/Timer.cpp:121:6:bool Timer::operator==(uint32_t)	16	static
+../src/1-modulos/05-timer/Timer.cpp:145:8:Timer& Timer::operator=(uint32_t)	16	static
+../src/1-modulos/05-timer/Timer.cpp:153:1:Timer::operator bool()	16	static
+../src/1-modulos/05-timer/Timer.cpp:158:6:void Timer::TmrEvent()	16	static
+../src/1-modulos/05-timer/Timer.cpp:168:1:Timer::~Timer()	16	static
+../src/1-modulos/05-timer/Timer.cpp:168:1:virtual Timer::~Timer()	16	static
+../src/1-modulos/05-timer/Timer.cpp:172:10:uint32_t Timer::BaseToticks(uint32_t)	16	static
+../src/1-modulos/05-timer/Timer.cpp:189:10:uint32_t Timer::TicksToBase(uint32_t) const	16	static

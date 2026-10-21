@@ -1,0 +1,3 @@
+../src/1-modulos/12-USART/ComunicacionAsincronica.cpp:43:1:ComunicacionAsincronica::ComunicacionAsincronica()	16	static
+../src/1-modulos/12-USART/ComunicacionAsincronica.cpp:48:1:ComunicacionAsincronica::~ComunicacionAsincronica()	16	static
+../src/1-modulos/12-USART/ComunicacionAsincronica.cpp:48:1:virtual ComunicacionAsincronica::~ComunicacionAsincronica()	16	static

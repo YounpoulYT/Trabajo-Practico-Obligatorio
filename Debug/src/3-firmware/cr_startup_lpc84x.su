@@ -1,0 +1,9 @@
+../src/3-firmware/cr_startup_lpc84x.cpp:213:6:void data_init(unsigned int, unsigned int, unsigned int)	40	static
+../src/3-firmware/cr_startup_lpc84x.cpp:222:6:void bss_init(unsigned int, unsigned int)	24	static
+../src/3-firmware/cr_startup_lpc84x.cpp:249:1:void ResetISR()	32	static
+../src/3-firmware/cr_startup_lpc84x.cpp:316:6:void NMI_Handler()	8	static
+../src/3-firmware/cr_startup_lpc84x.cpp:321:6:void HardFault_Handler()	8	static
+../src/3-firmware/cr_startup_lpc84x.cpp:326:6:void SVC_Handler()	8	static
+../src/3-firmware/cr_startup_lpc84x.cpp:331:6:void PendSV_Handler()	8	static
+../src/3-firmware/cr_startup_lpc84x.cpp:336:6:void SysTick_Handler()	8	static
+../src/3-firmware/cr_startup_lpc84x.cpp:347:6:void IntDefaultHandler()	8	static

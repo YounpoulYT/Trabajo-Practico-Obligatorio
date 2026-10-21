@@ -1,0 +1,2 @@
+../src/3-firmware/swm.cpp:42:6:void PINASSIGN_Config(uint8_t, uint8_t, uint8_t)	24	static
+../src/3-firmware/swm.cpp:51:6:void PINENABLE_Config(uint8_t, uint8_t)	16	static

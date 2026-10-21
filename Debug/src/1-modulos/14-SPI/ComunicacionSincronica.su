@@ -1,0 +1,4 @@
+../src/1-modulos/14-SPI/ComunicacionSincronica.cpp:10:1:ComunicacionSincronica::ComunicacionSincronica()	16	static
+../src/1-modulos/14-SPI/ComunicacionSincronica.cpp:15:1:ComunicacionSincronica::~ComunicacionSincronica()	16	static
+../src/1-modulos/14-SPI/ComunicacionSincronica.cpp:15:1:virtual ComunicacionSincronica::~ComunicacionSincronica()	16	static
+../src/1-modulos/14-SPI/ComunicacionSincronica.cpp:21:6:bool ComunicacionSincronica::Transmitir(const uint8_t*, uint32_t)	32	static

@@ -1,0 +1,22 @@
+C:\Users\Juanp\OneDrive\Documentos\GitHub\Trabajo-Practico-Obligatorio\src\1-modulos\01-pin\in/Inputs.h:19:3:Inputs::Inputs()	16	static
+C:\Users\Juanp\OneDrive\Documentos\GitHub\Trabajo-Practico-Obligatorio\src\1-modulos\01-pin\in/Inputs.h:23:11:Inputs::~Inputs()	16	static
+C:\Users\Juanp\OneDrive\Documentos\GitHub\Trabajo-Practico-Obligatorio\src\1-modulos\01-pin\in/Inputs.h:23:11:virtual Inputs::~Inputs()	16	static
+C:\Users\Juanp\OneDrive\Documentos\GitHub\Trabajo-Practico-Obligatorio\src\1-modulos\01-pin\out/Outputs.h:44:3:Outputs::Outputs()	16	static
+C:\Users\Juanp\OneDrive\Documentos\GitHub\Trabajo-Practico-Obligatorio\src\1-modulos\01-pin\out/Outputs.h:50:11:Outputs::~Outputs()	16	static
+C:\Users\Juanp\OneDrive\Documentos\GitHub\Trabajo-Practico-Obligatorio\src\1-modulos\01-pin\out/Outputs.h:50:11:virtual Outputs::~Outputs()	16	static
+../src/1-modulos/02-gpio/Gpio.h:79:3:Gpio::~Gpio()	16	static
+../src/1-modulos/02-gpio/Gpio.h:79:3:virtual Gpio::~Gpio()	16	static
+../src/1-modulos/02-gpio/Gpio.cpp:44:1:Gpio::Gpio(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t)	24	static
+../src/1-modulos/02-gpio/Gpio.cpp:76:9:virtual uint8_t Gpio::SetPin()	16	static
+../src/1-modulos/02-gpio/Gpio.cpp:89:9:virtual uint8_t Gpio::ClrPin()	16	static
+../src/1-modulos/02-gpio/Gpio.cpp:101:9:virtual uint8_t Gpio::SetTogglePin()	16	static
+../src/1-modulos/02-gpio/Gpio.cpp:109:9:virtual uint8_t Gpio::SetDirOutputs()	16	static
+../src/1-modulos/02-gpio/Gpio.cpp:120:9:virtual uint8_t Gpio::SetDirInputs()	16	static
+../src/1-modulos/02-gpio/Gpio.cpp:131:9:uint8_t Gpio::SetToggleDir()	16	static
+../src/1-modulos/02-gpio/Gpio.cpp:139:9:virtual uint8_t Gpio::GetPin() const	32	static
+../src/1-modulos/02-gpio/Gpio.cpp:150:9:virtual uint8_t Gpio::SetPinModeOut()	16	static
+../src/1-modulos/02-gpio/Gpio.cpp:155:9:virtual uint8_t Gpio::SetPinModeIn()	24	static
+../src/1-modulos/02-gpio/Gpio.cpp:171:8:Gpio& Gpio::operator=(bool)	16	static
+../src/1-modulos/02-gpio/Gpio.cpp:180:6:bool Gpio::operator==(bool)	16	static
+../src/1-modulos/02-gpio/Gpio.cpp:187:6:bool Gpio::operator==(Gpio&)	24	static
+../src/1-modulos/02-gpio/Gpio.cpp:193:1:Gpio::operator bool()	16	static

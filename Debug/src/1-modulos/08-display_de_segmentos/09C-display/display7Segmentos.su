@@ -1,0 +1,5 @@
+../src/1-modulos/08-display_de_segmentos/09C-display/display7Segmentos.cpp:43:1:Display7Segmentos::Display7Segmentos(Segmentos*, Barrido*, GrupoDeDigitos*, uint8_t*)	32	static
+../src/1-modulos/08-display_de_segmentos/09C-display/display7Segmentos.cpp:66:6:virtual void Display7Segmentos::HandlerDelPeriferico()	16	static
+../src/1-modulos/08-display_de_segmentos/09C-display/display7Segmentos.cpp:80:6:void Display7Segmentos::SetDisplay(uint32_t, nDisplay)	40	static
+../src/1-modulos/08-display_de_segmentos/09C-display/display7Segmentos.cpp:98:1:Display7Segmentos::~Display7Segmentos()	16	static
+../src/1-modulos/08-display_de_segmentos/09C-display/display7Segmentos.cpp:98:1:virtual Display7Segmentos::~Display7Segmentos()	16	static

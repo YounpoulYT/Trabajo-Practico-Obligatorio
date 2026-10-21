@@ -1,0 +1,8 @@
+../src/2-aplicacion/aplicacion.cpp:47:6:void Sheduller()	16	static
+../src/2-aplicacion/aplicacion.cpp:53:9:uint8_t GetKey()	8	static
+../src/2-aplicacion/aplicacion.cpp:60:6:void EvTemperatura()	8	static
+../src/2-aplicacion/aplicacion.cpp:67:6:void Programar()	24	static
+../src/2-aplicacion/aplicacion.cpp:104:9:uint8_t Parametro(uint8_t, int32_t, int32_t)	40	static
+../src/2-aplicacion/aplicacion.cpp:146:6:void Control()	8	static
+../src/2-aplicacion/aplicacion.cpp:153:1:void __static_initialization_and_destruction_0()	8	static
+../src/2-aplicacion/aplicacion.cpp:153:1:cpp)	8	static

@@ -1,0 +1,6 @@
+../src/1-modulos/14-SPI/SPI.cpp:12:1:Spi::Spi(uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t, uint8_t)	24	static
+../src/1-modulos/14-SPI/SPI.cpp:30:6:bool Spi::Inicializar(uint32_t, uint32_t, uint8_t)	40	static
+../src/1-modulos/14-SPI/SPI.cpp:137:6:bool Spi::Esperar(uint32_t)	32	static
+../src/1-modulos/14-SPI/SPI.cpp:160:6:virtual bool Spi::Transferir(const uint8_t*, uint8_t*, uint32_t)	40	static
+../src/1-modulos/14-SPI/Spi.h:10:7:Spi::~Spi()	16	static
+../src/1-modulos/14-SPI/Spi.h:10:7:virtual Spi::~Spi()	16	static

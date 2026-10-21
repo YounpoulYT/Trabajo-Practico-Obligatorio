@@ -1,0 +1,8 @@
+../src/1-modulos/MAX7219.cpp:11:1:Max7219::Max7219(ComunicacionSincronica*, Outputs*)	24	static
+../src/1-modulos/MAX7219.cpp:19:6:bool Max7219::Inicializar(uint8_t)	24	static
+../src/1-modulos/MAX7219.cpp:64:6:bool Max7219::SetIntensidad(uint8_t)	16	static
+../src/1-modulos/MAX7219.cpp:71:6:void Max7219::Limpiar()	24	static
+../src/1-modulos/MAX7219.cpp:80:6:bool Max7219::SetPixel(uint8_t, uint8_t, bool)	32	static
+../src/1-modulos/MAX7219.cpp:102:6:bool Max7219::Actualizar()	48	static
+../src/1-modulos/MAX7219.cpp:128:6:bool Max7219::EnviarATodos(uint8_t, uint8_t)	40	static
+../src/1-modulos/MAX7219.cpp:139:6:bool Max7219::Enviar(const uint8_t*)	32	static
