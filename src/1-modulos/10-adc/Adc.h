@@ -78,6 +78,7 @@ class Adc
 
 		virtual ~Adc();
 
+		static void Disparar(void);			// lanza una pasada por todos los canales (llamar cada 1 ms)
 		void start_conversion(void) ;
 		uint32_t finished(uint16_t *channel_0, uint16_t *channel_1);
 		void ADC_seqA_IRQHandler( void );

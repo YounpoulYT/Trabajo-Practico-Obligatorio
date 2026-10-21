@@ -274,8 +274,8 @@
 							</tool>
 							<tool id="com.crt.advproject.link.exe.debug.1763227401" name="MCU Linker" superClass="com.crt.advproject.link.exe.debug">
 								<option id="com.crt.advproject.link.gcc.hdrlib.935773000" name="Library" superClass="com.crt.advproject.link.gcc.hdrlib"/>
-								<option id="com.crt.advproject.link.gcc.multicore.slave.519196944" superClass="com.crt.advproject.link.gcc.multicore.slave"/>
-								<option id="com.crt.advproject.link.gcc.multicore.master.1526716961" superClass="com.crt.advproject.link.gcc.multicore.master"/>
+								<option id="com.crt.advproject.link.gcc.multicore.slave.519196944" name="Multicore configuration" superClass="com.crt.advproject.link.gcc.multicore.slave"/>
+								<option id="com.crt.advproject.link.gcc.multicore.master.1526716961" name="Multicore master" superClass="com.crt.advproject.link.gcc.multicore.master"/>
 							</tool>
 							<tool id="com.crt.advproject.tool.debug.debug.1532849512" name="MCU Debugger" superClass="com.crt.advproject.tool.debug.debug">
 								<option id="com.crt.advproject.linkserver.debug.prevent.debug.1940979019" name="Prevent Debugging" superClass="com.crt.advproject.linkserver.debug.prevent.debug"/>
@@ -288,7 +288,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="2-aplicacion/PuertaCorrefiza.cpp|2-aplicacion/Puerta.cpp|2-aplicacion/inicializarInfotronic.cpp|2-aplicacion/aplicacion.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -556,7 +556,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="2-aplicacion/PuertaCorrefiza.cpp|2-aplicacion/Puerta.cpp|2-aplicacion/inicializarInfotronic.cpp|2-aplicacion/aplicacion.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

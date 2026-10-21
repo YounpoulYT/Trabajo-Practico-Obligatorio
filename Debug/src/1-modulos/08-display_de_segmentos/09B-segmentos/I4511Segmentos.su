@@ -1,6 +1,0 @@
-C:\Users\Juanp\OneDrive\Documentos\GitHub\Trabajo-Practico-Obligatorio\src/1-modulos/08-display_de_segmentos/09B-segmentos/segmentos-interfaz/Segmentos.h:48:11:Segmentos::~Segmentos()	16	static
-C:\Users\Juanp\OneDrive\Documentos\GitHub\Trabajo-Practico-Obligatorio\src/1-modulos/08-display_de_segmentos/09B-segmentos/segmentos-interfaz/Segmentos.h:48:11:virtual Segmentos::~Segmentos()	16	static
-../src/1-modulos/08-display_de_segmentos/09B-segmentos/I4511Segmentos.cpp:43:1:I4511_Segmentos::~I4511_Segmentos()	16	static
-../src/1-modulos/08-display_de_segmentos/09B-segmentos/I4511Segmentos.cpp:43:1:virtual I4511_Segmentos::~I4511_Segmentos()	16	static
-../src/1-modulos/08-display_de_segmentos/09B-segmentos/I4511Segmentos.cpp:47:6:virtual bool I4511_Segmentos::SetSegmentos(uint8_t)	24	static
-../src/1-modulos/08-display_de_segmentos/09B-segmentos/I4511Segmentos.cpp:61:6:virtual void I4511_Segmentos::ClrSegmentos()	16	static

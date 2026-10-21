@@ -1,8 +1,0 @@
-../src/2-aplicacion/Puerta.cpp:24:16:uint8_t Reset(uint8_t)	16	static
-../src/2-aplicacion/Puerta.cpp:31:16:uint8_t Cerrado(uint8_t)	16	static
-../src/2-aplicacion/Puerta.cpp:42:16:uint8_t Abriendo(uint8_t)	16	static
-../src/2-aplicacion/Puerta.cpp:54:16:uint8_t Abierto(uint8_t)	16	static
-../src/2-aplicacion/Puerta.cpp:71:16:uint8_t Cerrando(uint8_t)	16	static
-../src/2-aplicacion/Puerta.cpp:89:6:void MaquinaDeEstadosPuerta()	8	static
-../src/2-aplicacion/Puerta.cpp:95:1:void __static_initialization_and_destruction_0()	8	static
-../src/2-aplicacion/Puerta.cpp:95:1:cpp)	8	static

@@ -1,8 +1,0 @@
-C:\Users\Juanp\OneDrive\Documentos\GitHub\Trabajo-Practico-Obligatorio\src\1-modulos\08-display_de_segmentos\09A-barrido\barrido-interfaz/Barrido.h:47:11:Barrido::~Barrido()	16	static
-C:\Users\Juanp\OneDrive\Documentos\GitHub\Trabajo-Practico-Obligatorio\src\1-modulos\08-display_de_segmentos\09A-barrido\barrido-interfaz/Barrido.h:47:11:virtual Barrido::~Barrido()	16	static
-../src/1-modulos/08-display_de_segmentos/09A-barrido/I4017Barrido.cpp:48:1:I4017_Barrido::~I4017_Barrido()	16	static
-../src/1-modulos/08-display_de_segmentos/09A-barrido/I4017Barrido.cpp:48:1:virtual I4017_Barrido::~I4017_Barrido()	16	static
-../src/1-modulos/08-display_de_segmentos/09A-barrido/I4017Barrido.cpp:52:6:void I4017_Barrido::SetReset()	16	static
-../src/1-modulos/08-display_de_segmentos/09A-barrido/I4017Barrido.cpp:60:6:void I4017_Barrido::SetClock()	16	static
-../src/1-modulos/08-display_de_segmentos/09A-barrido/I4017Barrido.cpp:67:6:virtual void I4017_Barrido::SetDigito()	16	static
-../src/1-modulos/08-display_de_segmentos/09A-barrido/I4017Barrido.cpp:77:6:virtual void I4017_Barrido::SetNDigitos(uint8_t)	16	static
