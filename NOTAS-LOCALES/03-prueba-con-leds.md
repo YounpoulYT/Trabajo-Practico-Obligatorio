@@ -59,3 +59,29 @@ HW-504 en **C0 (P0_26)** y MH en **C1 (P0_15)**.
 
 Antes, el botón de C1 "no hacía nada" porque recalibraba, y eso no se ve.
 Si ahora el de C1 no parpadea 2 veces → revisar el cable SW del módulo MH y que el GND del módulo esté conectado.
+
+---
+
+## Actualización: ejes de los joysticks (descubierto con el display de 7 segmentos)
+
+Las 4 líneas de los joysticks (P0_23…P0_20) son también las entradas BCD del CD4511, así que
+el display de 7 segmentos muestra un número según qué líneas están en "1" (tensión alta):
+
+| Línea | Pin | Bit | Se prende con |
+|---|---|---|---|
+| BCDA | P0_23 | 1 | HW-504 arriba |
+| BCDB | P0_22 | 2 | HW-504 derecha |
+| BCDC | P0_21 | 4 | MH arriba |
+| BCDD | P0_20 | 8 | MH derecha |
+
+Suelto, abajo o izquierda → tensión baja o media → el 4511 lo lee como 0.
+
+**Conclusiones:**
+1. Los 4 cables están bien conectados.
+2. En la posición de uso, **VRx del módulo es el eje vertical y VRy el horizontal**.
+3. Arriba y derecha dan tensión alta → no hay que invertir nada.
+
+**Cambio:** en `pines.h` se intercambiaron los canales (sin tocar cables):
+`JOY1_X = canal 4`, `JOY1_Y = canal 3`, `JOY2_X = canal 6`, `JOY2_Y = canal 5`.
+
+Truco útil: el display sirve como tester rápido de esas 4 líneas mientras no se use para otra cosa.

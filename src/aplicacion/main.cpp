@@ -17,6 +17,7 @@
  *  - Boton del joystick 2 (apretar la palanca, C1 = P0_15): muestra el J2. Parpadea 2 veces.
  *  - Los DOS botones juntos: al soltarlos recalibra el centro de los dos joysticks. Parpadea 3 veces.
  *    (Se calibra al SOLTAR porque apretar la palanca la puede correr un poco del centro.)
+ *  - En la matriz 8x32 (si esta conectada) cada joystick mueve un punto: J1 arranca a la izquierda, J2 a la derecha.
  *  - Cada 250 ms manda a la PC (UART0, 9600) la linea  #JOY,x1,y1,x2,y2$  con los valores crudos (0..4095).
  *    Se ve con la terminal de MCUXpresso.
  *
@@ -57,6 +58,21 @@ static void Parpadear( uint8_t veces )
 		PonerLeds( false , false , false );
 		Esperar( 150 );
 	}
+}
+
+// ============================================================ MATRIZ
+
+// Mueve el punto un lugar segun la direccion, sin salirse de la matriz (8 filas x 32 columnas)
+static void MoverPunto( Joystick::direccion_t direccion , uint8_t &fila , uint8_t &columna )
+{
+	if ( direccion == Joystick::ARRIBA && fila > 0 )
+		fila--;
+	if ( direccion == Joystick::ABAJO && fila < 7 )
+		fila++;
+	if ( direccion == Joystick::IZQUIERDA && columna > 0 )
+		columna--;
+	if ( direccion == Joystick::DERECHA && columna < 31 )
+		columna++;
 }
 
 // ============================================================ PC
@@ -118,11 +134,17 @@ int main( void )
 
 	Joystick *joyActual = &g_joy1;
 
-	const uint32_t PERIODO_LEDS = 20;		// ms
-	const uint32_t PERIODO_PC   = 250;		// ms
+	// Puntos de la matriz
+	uint8_t fila1 = 3 , columna1 = 3;		// jugador 1
+	uint8_t fila2 = 4 , columna2 = 28;		// jugador 2
 
-	uint32_t tLeds = Milisegundos();
-	uint32_t tPC   = Milisegundos();
+	const uint32_t PERIODO_LEDS   = 20;		// ms
+	const uint32_t PERIODO_MATRIZ = 120;	// ms -> velocidad de los puntos
+	const uint32_t PERIODO_PC     = 250;	// ms
+
+	uint32_t tLeds   = Milisegundos();
+	uint32_t tMatriz = Milisegundos();
+	uint32_t tPC     = Milisegundos();
 
 	bool calibracionPendiente = false;
 
@@ -164,6 +186,20 @@ int main( void )
 		{
 			tLeds += PERIODO_LEDS;
 			MostrarDireccion( joyActual->GetDireccion() );
+		}
+
+		// ---------------- Matriz ----------------
+		if ( Milisegundos() - tMatriz >= PERIODO_MATRIZ )
+		{
+			tMatriz += PERIODO_MATRIZ;
+
+			MoverPunto( g_joy1.GetDireccion() , fila1 , columna1 );
+			MoverPunto( g_joy2.GetDireccion() , fila2 , columna2 );
+
+			g_matriz.Limpiar();
+			g_matriz.SetPixel( fila1 , columna1 );
+			g_matriz.SetPixel( fila2 , columna2 );
+			g_matriz.Actualizar();
 		}
 
 		// ---------------- PC ----------------
