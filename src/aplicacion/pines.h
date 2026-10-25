@@ -9,8 +9,8 @@
  * ================================================================================================================
  *  PIN     USO EN EL TPO                         EN EL KIT ESTA CONECTADO A               NOTAS
  * ================================================================================================================
- *  P0_16   MATRIZ CLK  (SPI0 SCK)                TX1 (conector HC-05 / ESP8266)           No enchufar BT/WiFi
- *  P0_17   MATRIZ LOAD (CS)                      RX1 (conector HC-05 / ESP8266)           No enchufar BT/WiFi
+ *  P0_16   MATRIZ CLK  (SPI0 SCK)                MEDIO ABAJO (conector HC-05 / ESP8266)           No enchufar BT/WiFi
+ *  P0_17   MATRIZ LOAD (CS)                      MEDIO ARRIBA (conector HC-05 / ESP8266)           No enchufar BT/WiFi
  *  P0_27   MATRIZ DIN  (SPI0 MOSI)               Scn0 del teclado (F1)                    No usar el teclado del kit
  *  P0_23   JOY 1 (HW-504) VRx -> VERTICAL  ADC3  BCDA del CD4511 - CN12-1                 Ver nota de los ejes abajo
  *  P0_22   JOY 1 (HW-504) VRy -> HORIZONTAL ADC4 BCDB del CD4511 - CN12-2
