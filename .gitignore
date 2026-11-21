@@ -1,7 +1,21 @@
+# Lo genera MCUXpresso al compilar (se vuelve a crear solo)
 Debug/
 Release/
-.metadata/
 *.o
+*.d
+*.su
 *.axf
+*.map
+*.bin
+*.hex
+
+# Configuracion propia de cada compu / de cada placa
+.metadata/
+*.launch
+
+# Notas personales
 NOTAS-LOCALES/
-#Elimina archivos que se generan localmente para evitar problemas al importar
+
+# Basura de Windows / OneDrive
+Thumbs.db
+desktop.ini
