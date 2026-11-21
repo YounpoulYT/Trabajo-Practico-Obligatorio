@@ -21,4 +21,4 @@ Todas las conexiones (pines y colores de cables) y el mensaje que se manda a la 
 | `src/2-aplicacion` | `inicializarInfotronic.cpp`: se crean los objetos con sus pines. `aplicacion.cpp`: lo que hace el programa. `main.cpp` |
 | `src/3-firmware` | Arranque del micro, PLL, SysTick, switch matrix |
 
-No se suben `Debug/` ni los archivos `.launch`: MCUXpresso los genera solo en cada compu.
+Se implementó el gitignore para evitar que se suban archivos que den conflictos al pullear desde MCUXpreso
