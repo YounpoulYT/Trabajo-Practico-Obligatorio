@@ -23,22 +23,20 @@
 #include "Pulsador.h"
 #include "Uart.h"
 
-// ---------------------------------------------------------------- Matriz LED 8x32
+// ---------------------------------------------------------------- Matriz LED 16x32
 extern Gpio		g_matrizLoad;
 extern Spi		g_matrizSpi;
 extern Max7219	g_matriz;
 
-// ---------------------------------------------------------------- Joysticks
+// ---------------------------------------------------------------- Joystick 1
 extern Adc		g_adcJoy1X;
 extern Adc		g_adcJoy1Y;
-extern Adc		g_adcJoy2X;
-extern Adc		g_adcJoy2Y;
-extern Joystick	g_joy1;
-extern Joystick	g_joy2;
+extern Joystick	g_joy1;				// la palanca
+extern Pulsador	g_botonJoy1;		// SW: apretar la palanca
+extern Pulsador	g_pulsDerJoy1;		// pulsador derecho
+extern Pulsador	g_pulsIzqJoy1;		// pulsador izquierdo
 
-// ---------------------------------------------------------------- Botones de los joysticks
-extern Pulsador	g_botonJoy1;
-extern Pulsador	g_botonJoy2;
+// El joystick 2 todavia no esta conectado: cuando se conecte se agregan aca sus objetos.
 
 // ---------------------------------------------------------------- LEDs del kit
 extern Gpio		g_led0;
@@ -50,8 +48,8 @@ extern Uart		g_uartPC;
 
 // ---------------------------------------------------------------- Funciones
 
-// Clock, SysTick, matriz, ADC, UART y calibracion de joysticks. Devuelve false si algo fallo.
-// No tocar los joysticks mientras se ejecuta (se mide el centro).
+// Clock, SysTick, matriz, ADC, UART y calibracion del joystick. Devuelve false si algo fallo.
+// No tocar el joystick mientras se ejecuta (se mide el centro).
 bool InicializarHardware( void );
 
 // Milisegundos desde que arranco el programa

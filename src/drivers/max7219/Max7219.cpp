@@ -44,7 +44,7 @@ bool Max7219::Inicializar(uint8_t intensidad)
     if (!EnviarATodos(MAX_REG_INTENSIDAD, intensidad))
         return false;
 
-    // Borramos tanto nuestra imagen como la memoria de los cuatro MAX7219.
+    // Borramos tanto nuestra imagen como la memoria de los ocho MAX7219.
     Limpiar();
     for (uint8_t fila = 0; fila < 8; fila++)
     {
@@ -70,7 +70,7 @@ bool Max7219::SetIntensidad(uint8_t intensidad)
 
 void Max7219::Limpiar()
 {
-    for (uint8_t modulo = 0; modulo < 4; modulo++)
+    for (uint8_t modulo = 0; modulo < MATRIZ_MODULOS; modulo++)
     {
         for (uint8_t fila = 0; fila < 8; fila++)
             m_imagen[modulo][fila] = 0;
@@ -79,12 +79,27 @@ void Max7219::Limpiar()
 
 bool Max7219::SetPixel(uint8_t fila, uint8_t columna, bool encendido)
 {
-    if (fila >= 8 || columna >= 32)
+    if (fila >= MATRIZ_FILAS || columna >= MATRIZ_COLUMNAS)
         return false;
 
-    // Columnas 0..7: modulo 0. Columnas 8..15: modulo 1, etc.
+    // Filas 0..7: tira de arriba (modulos 0 a 3). Filas 8..15: tira de abajo (modulos 4 a 7).
+    uint8_t primerModulo = 0;
+    if (fila >= 8)
+    {
+        primerModulo = 4;
+        fila = fila - 8; // Fila dentro de la tira de abajo: 0 a 7.
+
+        if (MATRIZ_ABAJO_GIRADA)
+        {
+            // La tira esta dada vuelta: lo de arriba queda abajo y la izquierda a la derecha.
+            fila = 7 - fila;
+            columna = (MATRIZ_COLUMNAS - 1) - columna;
+        }
+    }
+
+    // Columnas 0..7: primer modulo de la tira. Columnas 8..15: el siguiente, etc.
     // Modulo 0 es el conectado directamente al DIN de entrada de la placa.
-    uint8_t modulo = columna / 8;
+    uint8_t modulo = primerModulo + columna / 8;
     uint8_t columnaLocal = columna % 8;
 
     // Convencion logica: columna local 0 corresponde al bit 7.
@@ -106,18 +121,18 @@ bool Max7219::Actualizar()
 
     for (uint8_t fila = 0; fila < 8; fila++)
     {
-        uint8_t datos[8]; // Cuatro chips por dos bytes (registro + dato).
+        uint8_t datos[2 * MATRIZ_MODULOS]; // Ocho chips por dos bytes (registro + dato).
 
-        for (uint8_t posicion = 0; posicion < 4; posicion++)
+        for (uint8_t posicion = 0; posicion < MATRIZ_MODULOS; posicion++)
         {
             // Los primeros bytes avanzan hasta el chip mas lejano.
-            // Por eso transmitimos en el orden: modulo 3, 2, 1, 0.
-            uint8_t modulo = 3 - posicion;
+            // Por eso transmitimos en el orden: modulo 7, 6, ... 1, 0.
+            uint8_t modulo = (MATRIZ_MODULOS - 1) - posicion;
             datos[2 * posicion] = fila + 1;
             datos[2 * posicion + 1] = m_imagen[modulo][fila];
         }
 
-        // Los cuatro chips reciben su fila con un unico pulso de LOAD.
+        // Los ocho chips reciben su fila con un unico pulso de LOAD.
         if (!Enviar(datos))
             return false;
     }
@@ -127,8 +142,8 @@ bool Max7219::Actualizar()
 
 bool Max7219::EnviarATodos(uint8_t registro, uint8_t dato)
 {
-    uint8_t datos[8];
-    for (uint8_t modulo = 0; modulo < 4; modulo++)
+    uint8_t datos[2 * MATRIZ_MODULOS];
+    for (uint8_t modulo = 0; modulo < MATRIZ_MODULOS; modulo++)
     {
         datos[2 * modulo] = registro;
         datos[2 * modulo + 1] = dato;
@@ -141,11 +156,11 @@ bool Max7219::Enviar(const uint8_t *datos)
     // Esta salida debe estar configurada con actividad LOW.
     m_load->SetPin(); // Activa LOAD: nivel fisico BAJO.
 
-    // Ocho bytes = cuatro palabras de 16 bits = 64 pulsos de reloj.
+    // 16 bytes = ocho palabras de 16 bits = 128 pulsos de reloj.
     // Transmitir espera hasta que haya terminado de salir el ultimo bit.
-    bool ok = m_comunicacion->Transmitir(datos, 8);
+    bool ok = m_comunicacion->Transmitir(datos, 2 * MATRIZ_MODULOS);
 
-    // El flanco ascendente carga los registros de los cuatro MAX7219.
+    // El flanco ascendente carga los registros de los ocho MAX7219.
     // Liberamos LOAD tambien cuando falla el bus; puede quedar una imagen parcial.
     m_load->ClrPin(); // Desactiva LOAD: nivel fisico ALTO.
 

@@ -17,22 +17,21 @@
 
 // ================================================================ OBJETOS (los "extern" de hardware.h apuntan aca)
 
-// Matriz LED 8x32. LOAD es activo en bajo: SetPin() lo pone en 0 V.
+// Matriz LED 16x32. LOAD (CS) es activo en bajo: SetPin() lo pone en 0 V.
 Gpio		g_matrizLoad( MATRIZ_LOAD_PUERTO , MATRIZ_LOAD_PIN , Gpio::PUSHPULL , Gpio::OUTPUT , Gpio::LOW );
 Spi			g_matrizSpi( MATRIZ_SPI , MATRIZ_CLK_PUERTO , MATRIZ_CLK_PIN , MATRIZ_DIN_PUERTO , MATRIZ_DIN_PIN );
 Max7219		g_matriz( &g_matrizSpi , &g_matrizLoad );
 
-// Joysticks: un Adc por eje
+// Joystick 1: un Adc por eje de la palanca
+// Si un eje queda al reves:  Joystick g_joy1( &g_adcJoy1X , &g_adcJoy1Y , true , false );  (invierte X)
 Adc			g_adcJoy1X( JOY1_X_CANAL , Adc::PROMEDIO );
 Adc			g_adcJoy1Y( JOY1_Y_CANAL , Adc::PROMEDIO );
-Adc			g_adcJoy2X( JOY2_X_CANAL , Adc::PROMEDIO );
-Adc			g_adcJoy2Y( JOY2_Y_CANAL , Adc::PROMEDIO );
 Joystick	g_joy1( &g_adcJoy1X , &g_adcJoy1Y );
-Joystick	g_joy2( &g_adcJoy2X , &g_adcJoy2Y );
 
-// Botones de los joysticks
+// Joystick 1: boton de la palanca y los dos pulsadores
 Pulsador	g_botonJoy1( JOY1_SW_PUERTO , JOY1_SW_PIN );
-Pulsador	g_botonJoy2( JOY2_SW_PUERTO , JOY2_SW_PIN );
+Pulsador	g_pulsDerJoy1( JOY1_DER_PUERTO , JOY1_DER_PIN );
+Pulsador	g_pulsIzqJoy1( JOY1_IZQ_PUERTO , JOY1_IZQ_PIN );
 
 // LEDs del kit (activos en alto)
 Gpio		g_led0( LED0_PUERTO , LED0_PIN , Gpio::PUSHPULL , Gpio::OUTPUT , Gpio::HIGH );
@@ -53,13 +52,14 @@ static void TickDeSistema( void )
 {
 	s_ms++;
 
-	Adc::Disparar();							// nueva conversion de los joysticks
+	Adc::Disparar();							// nueva conversion del joystick
 	PerifericoTemporizado::AtenderTodos();		// descuenta los Timer
 
 	if ( s_ms % PERIODO_PULSADORES_MS == 0 )	// antirrebote de los pulsadores
 	{
 		g_botonJoy1.Actualizar();
-		g_botonJoy2.Actualizar();
+		g_pulsDerJoy1.Actualizar();
+		g_pulsIzqJoy1.Actualizar();
 	}
 }
 
@@ -106,10 +106,9 @@ bool InicializarHardware( void )
 	if ( !g_uartPC.Inicializar() )
 		return false;
 
-	// 7- Joysticks: esperar que se llene el promedio (16 muestras x 1 ms) y medir el centro
+	// 7- Joystick: esperar que se llene el promedio (16 muestras x 1 ms) y medir el centro
 	Esperar( 100 );
 	g_joy1.Calibrar();
-	g_joy2.Calibrar();
 
 	return true;
 }

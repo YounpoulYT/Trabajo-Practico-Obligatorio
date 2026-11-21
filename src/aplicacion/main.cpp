@@ -1,77 +1,38 @@
 /*******************************************************************************************************************************//**
  *
  * @file		main.cpp
- * @brief		PRUEBA DE JOYSTICKS con los 3 LEDs del kit (sin matriz)
+ * @brief		PRUEBA DEL JOYSTICK 1 con la matriz de 16x32 y los 3 LEDs del kit
  *
- * Se muestra UN joystick a la vez en los LEDs (P1_0, P1_1, P1_2):
+ *  - La palanca mueve un punto por toda la matriz (16 filas x 32 columnas).
+ *  - Boton de la palanca (SW, P0_19): el punto vuelve al centro de la matriz.
+ *  - Los LEDs del kit muestran los botones mientras estan apretados:
  *
- *     Palanca         LED0   LED1   LED2
- *     -----------     ----   ----   ----
- *     suelta           .      .      .
- *     IZQUIERDA        X      .      .
- *     ARRIBA           .      X      .
- *     DERECHA          .      .      X
- *     ABAJO            X      X      X
+ *        LED0 = pulsador IZQUIERDO (P0_23)
+ *        LED1 = boton de la palanca (P0_19)
+ *        LED2 = pulsador DERECHO (P0_22)
  *
- *  - Boton del joystick 1 (apretar la palanca, C0 = P0_26): muestra el J1. Parpadea 1 vez.
- *  - Boton del joystick 2 (apretar la palanca, C1 = P0_15): muestra el J2. Parpadea 2 veces.
- *  - Los DOS botones juntos: al soltarlos recalibra el centro de los dos joysticks. Parpadea 3 veces.
- *    (Se calibra al SOLTAR porque apretar la palanca la puede correr un poco del centro.)
- *  - En la matriz 8x32 (si esta conectada) cada joystick mueve un punto: J1 arranca a la izquierda, J2 a la derecha.
  *  - Cada 250 ms manda a la PC (UART0, 9600) la linea  #JOY,x1,y1,x2,y2$  con los valores crudos (0..4095).
+ *    El joystick 2 todavia no esta conectado: en su lugar se manda 2048 (palanca en el centro).
  *    Se ve con la terminal de MCUXpresso.
  *
- * Las conexiones estan en pines.h. Los objetos (g_joy1, g_led0, g_botonJoy1, ...) estan en hardware.cpp.
+ * Las conexiones estan en pines.h. Los objetos (g_joy1, g_matriz, g_botonJoy1, ...) estan en hardware.cpp.
  *
  **********************************************************************************************************************************/
 
 #include "hardware.h"
 
-// ============================================================ LEDS
-
-static void PonerLeds( bool led0 , bool led1 , bool led2 )
-{
-	g_led0 = led0;
-	g_led1 = led1;
-	g_led2 = led2;
-}
-
-static void MostrarDireccion( Joystick::direccion_t direccion )
-{
-	switch ( direccion )
-	{
-		case Joystick::IZQUIERDA:	PonerLeds( true  , false , false );	break;
-		case Joystick::ARRIBA:		PonerLeds( false , true  , false );	break;
-		case Joystick::DERECHA:		PonerLeds( false , false , true  );	break;
-		case Joystick::ABAJO:		PonerLeds( true  , true  , true  );	break;
-		default:					PonerLeds( false , false , false );	break;		// CENTRO
-	}
-}
-
-// Parpadea los 3 LEDs "veces" veces (bloquea un momento; solo se usa al cambiar de joystick)
-static void Parpadear( uint8_t veces )
-{
-	for ( uint8_t i = 0 ; i < veces ; i++ )
-	{
-		PonerLeds( true , true , true );
-		Esperar( 150 );
-		PonerLeds( false , false , false );
-		Esperar( 150 );
-	}
-}
-
 // ============================================================ MATRIZ
 
-// Mueve el punto un lugar segun la direccion, sin salirse de la matriz (8 filas x 32 columnas)
+// Mueve el punto un lugar segun la direccion, sin salirse de la matriz
 static void MoverPunto( Joystick::direccion_t direccion , uint8_t &fila , uint8_t &columna )
 {
 	if ( direccion == Joystick::ARRIBA && fila > 0 )
 		fila--;
-	if ( direccion == Joystick::ABAJO && fila < 7 )
+	if ( direccion == Joystick::ABAJO && fila < MATRIZ_FILAS - 1 )
 		fila++;
 	if ( direccion == Joystick::IZQUIERDA && columna > 0 )
 		columna--;
-	if ( direccion == Joystick::DERECHA && columna < 31 )
+	if ( direccion == Joystick::DERECHA && columna < MATRIZ_COLUMNAS - 1 )
 		columna++;
 }
 
@@ -110,8 +71,8 @@ static void EnviarJoysticks( void )
 
 	AgregarNumero( linea , largo , g_adcJoy1X.GetResultado() );	linea[ largo++ ] = ',';
 	AgregarNumero( linea , largo , g_adcJoy1Y.GetResultado() );	linea[ largo++ ] = ',';
-	AgregarNumero( linea , largo , g_adcJoy2X.GetResultado() );	linea[ largo++ ] = ',';
-	AgregarNumero( linea , largo , g_adcJoy2Y.GetResultado() );
+	AgregarNumero( linea , largo , Joystick::CENTRO_TEORICO );	linea[ largo++ ] = ',';		// joystick 2: no conectado
+	AgregarNumero( linea , largo , Joystick::CENTRO_TEORICO );
 	linea[ largo++ ] = '$';
 	linea[ largo++ ] = '\r';
 	linea[ largo++ ] = '\n';
@@ -130,62 +91,38 @@ int main( void )
 		}
 	}
 
-	Parpadear( 1 );			// arranco bien, mostrando el joystick 1
+	// Punto que mueve el joystick 1: arranca en el centro de la matriz
+	const uint8_t FILA_CENTRO    = MATRIZ_FILAS / 2;
+	const uint8_t COLUMNA_CENTRO = MATRIZ_COLUMNAS / 2;
 
-	Joystick *joyActual = &g_joy1;
-
-	// Puntos de la matriz
-	uint8_t fila1 = 3 , columna1 = 3;		// jugador 1
-	uint8_t fila2 = 4 , columna2 = 28;		// jugador 2
+	uint8_t fila = FILA_CENTRO;
+	uint8_t columna = COLUMNA_CENTRO;
 
 	const uint32_t PERIODO_LEDS   = 20;		// ms
-	const uint32_t PERIODO_MATRIZ = 120;	// ms -> velocidad de los puntos
+	const uint32_t PERIODO_MATRIZ = 120;	// ms -> velocidad del punto
 	const uint32_t PERIODO_PC     = 250;	// ms
 
 	uint32_t tLeds   = Milisegundos();
 	uint32_t tMatriz = Milisegundos();
 	uint32_t tPC     = Milisegundos();
 
-	bool calibracionPendiente = false;
-
 	while ( 1 )
 	{
-		// ---------------- Botones de los joysticks (el antirrebote lo hace el SysTick) ----------------
-		bool apretoJ1 = g_botonJoy1.FuePresionado();
-		bool apretoJ2 = g_botonJoy2.FuePresionado();
-
-		if ( g_botonJoy1.EstaPresionado() && g_botonJoy2.EstaPresionado() )
+		// ---------------- Boton de la palanca (el antirrebote lo hace el SysTick) ----------------
+		if ( g_botonJoy1.FuePresionado() )
 		{
-			// Los dos juntos: se recalibra cuando se suelten
-			calibracionPendiente = true;
-		}
-		else if ( calibracionPendiente )
-		{
-			if ( !g_botonJoy1.EstaPresionado() && !g_botonJoy2.EstaPresionado() )
-			{
-				Esperar( 200 );				// que las palancas vuelvan al centro
-				g_joy1.Calibrar();
-				g_joy2.Calibrar();
-				Parpadear( 3 );
-				calibracionPendiente = false;
-			}
-		}
-		else if ( apretoJ1 )
-		{
-			joyActual = &g_joy1;
-			Parpadear( 1 );
-		}
-		else if ( apretoJ2 )
-		{
-			joyActual = &g_joy2;
-			Parpadear( 2 );
+			fila = FILA_CENTRO;
+			columna = COLUMNA_CENTRO;
 		}
 
-		// ---------------- LEDs ----------------
+		// ---------------- LEDs: muestran los botones ----------------
 		if ( Milisegundos() - tLeds >= PERIODO_LEDS )
 		{
 			tLeds += PERIODO_LEDS;
-			MostrarDireccion( joyActual->GetDireccion() );
+
+			g_led0 = g_pulsIzqJoy1.EstaPresionado();
+			g_led1 = g_botonJoy1.EstaPresionado();
+			g_led2 = g_pulsDerJoy1.EstaPresionado();
 		}
 
 		// ---------------- Matriz ----------------
@@ -193,12 +130,10 @@ int main( void )
 		{
 			tMatriz += PERIODO_MATRIZ;
 
-			MoverPunto( g_joy1.GetDireccion() , fila1 , columna1 );
-			MoverPunto( g_joy2.GetDireccion() , fila2 , columna2 );
+			MoverPunto( g_joy1.GetDireccion() , fila , columna );
 
 			g_matriz.Limpiar();
-			g_matriz.SetPixel( fila1 , columna1 );
-			g_matriz.SetPixel( fila2 , columna2 );
+			g_matriz.SetPixel( fila , columna );
 			g_matriz.Actualizar();
 		}
 
