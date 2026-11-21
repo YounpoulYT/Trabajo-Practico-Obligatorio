@@ -13,17 +13,15 @@
 1) MATRIZ LED 16x32  (2 tiras de 8x32 = 8 MAX7219 encadenados, por SPI0)
 ------------------------------------------------------------------------------
    PIN      SENAL    CABLE        OBJETO
+     -      GND      marrón         -
+     -      VCC(+5v) rojo           - 
    P0_18    DIN      verde        g_spiMatriz
-   P0_17    CS       amarillo     g_loadMatriz   (en el MAX7219 se llama LOAD)
+   P0_17    CS       amarillo     g_loadMatriz
    P0_16    CLK      naranja      g_spiMatriz
+
 
    La matriz completa es el objeto g_matriz (clase Max7219).
 
-   - La tira conectada primero (su DIN va al micro) es la de ARRIBA.
-   - El DOUT de la tira de arriba va al DIN de la tira de abajo.
-   - CLK y CS llegan a las dos tiras.
-
-   Vista de frente (modN = N-esimo chip de la cadena):
 
                         columna 0 ................. columna 31
                         +------+------+------+------+
@@ -35,18 +33,6 @@
    - En el codigo: g_matriz.SetPixel( fila , columna )
      fila 0 a 15 (0 = arriba), columna 0 a 31 (0 = izquierda).
 
-   ORIENTACION: las tiras estan montadas GIRADAS 180 grados respecto de como
-   vienen de fabrica (el "arriba" del modulo es el abajo de la matriz armada).
-   Una pieza no se puede espejar, solo girar, y girada 180 grados quedan al
-   reves las filas, las columnas y el orden de los modulos. Eso explica todo
-   lo que se vio en las pruebas:
-     - el punto saltaba al otro extremo al pasar de un modulo a otro,
-     - el eje X parecia invertido (era la matriz espejada, no el joystick),
-     - la fila "de arriba" se prendia abajo.
-   En src/1-modulos/MAX7219.h quedo:
-     MATRIZ_TIRAS_AL_REVES = 0, MATRIZ_FILAS_AL_REVES = 1,
-     MATRIZ_MODULOS_AL_REVES = 0, MATRIZ_COLUMNAS_AL_REVES = 1
-
    Si algo de la matriz sigue al reves, se cambia en src/1-modulos/MAX7219.h:
      MATRIZ_TIRAS_AL_REVES     1/0  la mitad de arriba sale abajo
      MATRIZ_FILAS_AL_REVES     1/0  dentro de cada 8x8 arriba y abajo al reves
@@ -55,26 +41,22 @@
      MATRIZ_ABAJO_GIRADA       0/1  la mitad de abajo se ve espejada o cabeza abajo
 
 
-2) JOYSTICK 1  (conectado)
+2) JOYSTICK 1
 ------------------------------------------------------------------------------
-   PIN      SENAL                           CABLE      OBJETO
+   PIN      SEÑAL                           CABLE      OBJETO
+    -       VCC(+5v)                        roj a blnc   -
+    -       GND                             negro        -
    P0_19    SW (boton de la palanca)        blanco     g_swJoy1   (DigitalInputs)
    P0_20    VRy  (ADC canal 6)              azul       g_adcJoy1Y (eje vertical)
    P0_21    VRx  (ADC canal 5)              gris       g_adcJoy1X (eje horizontal)
    P0_26    Pulsador derecho                naranja    g_derJoy1  (DigitalInputs)
    P0_27    Pulsador izquierdo              verde      g_izqJoy1  (DigitalInputs)
 
-   Los pulsadores estaban en P0_22 y P0_23 y se pasaron a P0_26 y P0_27,
-   para dejar P0_22 y P0_23 (que tienen ADC) para los ejes del joystick 2.
-
    - La palanca completa es el objeto g_joy1 (clase Joystick, en
      src/1-modulos/15-joystick). Recibe los dos Adc ya creados.
-   - CORREGIDO EN ESTA VERSION: VRx y VRy estaban intercambiados. Ahora VRx es
-     el eje horizontal (X) y VRy el vertical (Y).
    - Los canales del ADC de la catedra se habilitan a mano en la tabla
      CanalesHabilitados de src/1-modulos/10-adc/Adc.cpp: ahi se pusieron en
      true el canal 5 y el 6.
-   - El pin "+5V" del modulo va a 3,3 V: el ADC no admite mas de 3,3 V.
    - SW y los pulsadores van entre el pin y GND, sin resistencia (pull-up
      interno). get() devuelve 1 mientras estan apretados. Antirrebote de 20 ms.
    - El eje Y esta invertido y el X no. En inicializarInfotronic.cpp:
@@ -87,20 +69,21 @@
    - Al encender NO tocar la palanca: en ese momento se mide el centro.
 
 
-3) JOYSTICK 2  (ya esta en el codigo)
+3) JOYSTICK 2
 ------------------------------------------------------------------------------
-   PIN      SENAL                           CABLE      OBJETO
+   PIN      SEÑAL                           CABLE      OBJETO
+     -      VCC(+5v)                        verde        -
+     -      GND                             naranja      -   
    P0_28    SW (boton de la palanca)        blanco     g_swJoy2   (DigitalInputs)
-   P0_22    VRy  (ADC canal 4)              azul       g_adcJoy2Y (eje vertical)
-   P0_23    VRx  (ADC canal 3)              gris       g_adcJoy2X (eje horizontal)
-   P0_29    Pulsador derecho                naranja    g_derJoy2  (DigitalInputs)
-   P0_30    Pulsador izquierdo              verde      g_izqJoy2  (DigitalInputs)
+   P0_22    VRx  (ADC canal 4)              azul       g_adcJoy2Y (eje vertical)
+   P0_23    VRy  (ADC canal 3)              gris       g_adcJoy2X (eje horizontal)
+   P0_29    Pulsador derecho                negro      g_derJoy2  (DigitalInputs)
+   P0_30    Pulsador izquierdo              rojo      g_izqJoy2  (DigitalInputs)
 
-   - La palanca completa es g_joy2. Se supone montado igual que el 1 (eje Y
-     invertido):  Joystick g_joy2( &g_adcJoy2X , &g_adcJoy2Y , false , true );
+
    - Los canales 3 y 4 se habilitaron en la tabla de Adc.cpp.
    - Se saco g_out3, que usaba P0_30.
-   - Alimentacion y botones igual que el joystick 1 (3,3 V, botones a GND).
+   - Alimentacion y botones igual que el joystick 1 (5 V, botones a GND).
    - Los ejes van en P0_22 y P0_23 porque son los unicos que quedaban con ADC.
      Canales fijos del LPC845:
         canal:  0=P0_7   1=P0_6   2=P0_14  3=P0_23  4=P0_22  5=P0_21
@@ -114,66 +97,14 @@
    La salida PWM se puede poner en cualquier pin digital libre.
 
 
-5) LO QUE YA ESTABA EN LA BASE DE LA CATEDRA
+5) COMUNICACION CON LA PC (Qt)
 ------------------------------------------------------------------------------
-   P0_25 / P0_24    uart0 TX / RX con la PC (USB de la placa, 9600)
-   P1_0, P1_1, P1_2 g_out0, g_out1, g_out2: LEDs de la placa (activos en alto)
-   P0_4             g_in0  (es el boton USER de la placa)
-   P0_7             g_in1  (es el potenciometro de la placa)
-   P0_31            g_in2
-   P0_6             g_canal1, ADC canal 1 con la tabla del NTC
-   P0_2, P0_3, P0_5 NO TOCAR (depurador y reset)
-   P0_12            boton ISP de la placa: no usar
-
-   SE SACARON el display de 7 segmentos y el teclado del kit
-   (inicializarInfotronic.cpp), porque usaban P0_18 a P0_23, P0_12, P0_26,
-   P0_27, P0_28, P0_15 y P0_8, que ahora son de la matriz y los joysticks.
-   Por eso tambien se saco de aplicacion.cpp el ejemplo del control de
-   temperatura, que los usaba. Las clases siguen en 1-modulos.
-
-
-6) PROGRAMA DE PRUEBA
-------------------------------------------------------------------------------
-   main.cpp llama a InicializarInfotronic(), InicializarAplicacion() y despues
-   a Aplicacion() en el while. Todo lo que hace esta en aplicacion.cpp:
-
-   - La palanca del joystick 1 mueve un punto por toda la matriz de 16x32
-     (un paso cada 1 decima, con el Timer t_Matriz).
-   - SW (apretar la palanca): el punto vuelve al centro.
-   - Mientras se aprieta un boton se prende una linea entera de la matriz:
-     pulsador izquierdo = columna de la izquierda, pulsador derecho = columna
-     de la derecha, SW = fila de arriba.
-   - LEDs (g_out0..2) mientras se aprieta: g_out0 = pulsador izquierdo,
-     g_out1 = SW, g_out2 = pulsador derecho. Son los LEDs del kit; el LED RGB
-     de la placa LPC845-BRK esta en los mismos pines pero prende al reves
-     (con el pin en 0 V), asi que con la placa sola se ve prendido en reposo.
-   - Cada 2 decimas (Timer t_PC) sale por uart0 (ver punto 8).
-
-
-7) ARCHIVOS QUE SE MODIFICARON
-------------------------------------------------------------------------------
-   src/1-modulos/15-joystick/Joystick.h / .cpp   NUEVO: clase Joystick
-   src/1-modulos/MAX7219.h / .cpp                matriz 16x32 y orden de modulos
-   src/1-modulos/10-adc/Adc.cpp                  canales 3, 4, 5 y 6 habilitados
-   src/2-aplicacion/inicializarInfotronic.h/.cpp matriz y joysticks 1 y 2
-   src/2-aplicacion/aplicacion.h / .cpp          prueba y mensaje a la PC
-   src/2-aplicacion/main.cpp                     sin las rutas C:\Users\User\...
-   .cproject                                     rutas de include nuevas:
-                                                 1-modulos, 14-SPI, 15-joystick
-
-
-8) COMUNICACION CON LA PC (Qt)
-------------------------------------------------------------------------------
-   Se usa el MISMO cable micro USB con el que se programa la placa. No hay que
-   cablear nada: P0_24 (RX) y P0_25 (TX) ya van, dentro de la placa
-   LPC845-BRK, al chip del depurador, que en la PC aparece como un puerto
-   serie (COM).
 
    - En Windows: Administrador de dispositivos -> Puertos (COM y LPT). Ahi
      aparece el puerto de la placa (por ejemplo "USB Serial Device (COM5)").
    - Configuracion: 9600 baudios, 8 bits, sin paridad, 1 bit de stop.
    - Un puerto COM lo puede abrir UN solo programa a la vez: si esta abierta
-     la terminal de MCUXpresso, Qt no se puede conectar (y al reves).
+     la terminal de MCUXpresso, Qt no se puede conectar (y vicebersa).
 
    Cada 2 decimas de segundo la placa manda una linea de texto:
 
@@ -187,7 +118,4 @@
 
    Ejemplo (joystick 1 a la derecha con el SW apretado, joystick 2 suelto):
         #JOY,4095,2048,1,0,0,2048,2048,0,0,0$
-
-   En Qt: leer con QSerialPort, juntar lo recibido hasta encontrar '$',
-   sacar el '#', separar por ',' y tomar los 11 campos (el primero es "JOY").
 
