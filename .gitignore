@@ -3,4 +3,5 @@ Release/
 .metadata/
 *.o
 *.axf
+NOTAS-LOCALES/
 #Elimina archivos que se generan localmente para evitar problemas al importar
