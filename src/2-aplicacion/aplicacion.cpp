@@ -205,21 +205,7 @@ static void AgregarJoystick ( char *texto , uint32_t &largo , Joystick &joy ,
 // Cada PERIODO_PC: arma y envia  #JOY,x1,y1,sw1,izq1,der1,x2,y2,sw2,izq2,der2$
 void EvPC ( void )
 {
-	t_PC.TimerStart( PERIODO_PC , EvPC , Timer::DEC );
 
-	char linea[ 64 ];				// el mensaje mas largo tiene ~50 caracteres
-	uint32_t largo = 0;
-	const char *encabezado = "#JOY,";
+	g_pc.EnviarMenu(1);
 
-	while ( *encabezado )
-		linea[ largo++ ] = *encabezado++;
-
-	AgregarJoystick( linea , largo , g_joy1 , g_swJoy1 , g_izqJoy1 , g_derJoy1 );
-	linea[ largo++ ] = ',';
-	AgregarJoystick( linea , largo , g_joy2 , g_swJoy2 , g_izqJoy2 , g_derJoy2 );
-	linea[ largo++ ] = '$';
-	linea[ largo++ ] = '\r';
-	linea[ largo++ ] = '\n';
-
-	uart0.Transmit( linea , largo );
 }

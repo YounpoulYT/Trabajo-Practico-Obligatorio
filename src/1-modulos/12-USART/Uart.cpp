@@ -53,7 +53,7 @@ Uart::Uart(
 		bits_de_datos BitsDeDatos,	// Cantidad de bits de datos
 		paridad_t paridad ,			// Tipo de paridad
 		uint32_t maxRx ,			// Tamaño del buffer de RX
-		uint32_t maxTx)				// Tamaño del buffer de RX
+		uint32_t maxTx)				// Tamaño del buffer de TX
 {
 	uint8_t iser ;
 	m_usart = USARTS[usart];					// USART seleccionada

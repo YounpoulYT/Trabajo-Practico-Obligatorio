@@ -99,6 +99,10 @@ Uart uart0(
 		64,					// tamaño de buffer de Rx
 		64 );				// tamaño de buffer de Tx
 
+//QTcreator
+
+QTcreator g_pc (&uart0);
+
 int32_t TablaNTC( int32_t dato)
 {
 	uint8_t j;

@@ -17,6 +17,7 @@
 /***********************************************************************************************************************************
  *** INCLUDES GLOBALES
  **********************************************************************************************************************************/
+
 #include "Timer.h"
 #include "digital_inputs.h"
 #include "digital_outputs.h"
@@ -26,8 +27,9 @@
 #include "Gpio.h"
 #include "systick.h"
 #include "SPI.h"
-#include "MAX7219.h"
 #include "Joystick.h"
+#include "MAX7219.h"
+#include "QTcreator.h"
 
 /***********************************************************************************************************************************
  *** DEFINES GLOBALES
@@ -86,6 +88,9 @@ extern DigitalInputs g_izqJoy2;		// pulsador izquierdo
 
 // Uart
 extern Uart uart0;
+
+//QTcretor
+extern QTcreator g_pc;
 
 /***********************************************************************************************************************************
  *** PROTOTIPOS GLOBALES

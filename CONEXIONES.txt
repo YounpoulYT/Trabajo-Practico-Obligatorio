@@ -116,6 +116,9 @@
    sw, izq, der  botones: 1 = apretado, 0 = suelto.
    1 / 2         joystick 1 / joystick 2.
 
+   Se manda un salto de linea cada que terminar un periodo
+
    Ejemplo (joystick 1 a la derecha con el SW apretado, joystick 2 suelto):
         #JOY,4095,2048,1,0,0,2048,2048,0,0,0$
+  
 
