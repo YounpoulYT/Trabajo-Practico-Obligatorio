@@ -202,10 +202,10 @@ static void AgregarJoystick ( char *texto , uint32_t &largo , Joystick &joy ,
 	AgregarNumero( texto , largo , der.get() );
 }
 
-// Cada PERIODO_PC: arma y envia  #JOY,x1,y1,sw1,izq1,der1,x2,y2,sw2,izq2,der2$
+//cada periodo manda el menu hasta que se elija el juego o termine
 void EvPC ( void )
 {
+	t_PC.TimerStart( PERIODO_PC , EvPC , Timer::DEC );
 
-	g_pc.EnviarMenu(1);
-
+	g_pc.EnviarMenu( 1 );
 }

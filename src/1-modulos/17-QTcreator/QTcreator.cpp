@@ -32,4 +32,6 @@ void QTcreator::EnviarMenu(uint8_t opcion)
 
 	m_trama[3] = '$';
 
+	m_uart->Transmit( m_trama , 4 ); //manda los caracteres para que qtcreator los reciba
+
 }
