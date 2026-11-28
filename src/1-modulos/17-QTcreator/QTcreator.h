@@ -32,10 +32,12 @@ class QTcreator
 
 	ComunicacionAsincronica * m_uart; //El puntero al puerto que vamos a usar
 	char m_trama [20]; //Por donde se manda este mensaje
+	void AgregarNumero( uint16_t valor , uint8_t posicion ); //Para escribir numeros de 3 dìgitos
 
 	public:
 	QTcreator (ComunicacionAsincronica *uart); //constructor asi no perdemos el hilo
 	void EnviarMenu(uint8_t opcion); //metodo
+	void EnviarSerpiente( uint8_t estado , uint16_t puntaje , uint16_t manzanas , uint16_t tiempo );
 };
 
 /***********************************************************************************************************************************

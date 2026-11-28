@@ -207,5 +207,5 @@ void EvPC ( void )
 {
 	t_PC.TimerStart( PERIODO_PC , EvPC , Timer::DEC );
 
-	g_pc.EnviarMenu( 1 );
+	g_pc.EnviarSerpiente( 0,45,12,87 );
 }
